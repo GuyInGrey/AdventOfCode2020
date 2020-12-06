@@ -1,4 +1,4 @@
-# AdventOfCode2020
+# Advent Of Code 2020
 GuyInGrey's Solutions!
 Featuring a custom-made benchmarking system, accurate to 0.4 μs.
 
