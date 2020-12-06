@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -38,14 +39,27 @@ namespace GuyInGrey_AoC2020
 
         public static void BenchmarkTypes(Type[] types)
         {
+            var markdown = "# AdventOfCode2020\nGuyInGrey's Solutions!\n" +
+                "Featuring a custom-made benchmarking system, accurate to 0.4 μs.\n\n## Timing Results:\n" +
+                "|Name|Time|\n|-|-|\n";
+
             Console.WriteLine(" - 1000 iterations each -");
             foreach (var t in types)
             {
                 var benchmark = new BenchmarkedPuzzle(t);
                 benchmark.Run(1000);
 
+                foreach (var r in benchmark.BenchmarkResults)
+                {
+                    markdown += $"|{r.Information.Name} - {r.BenchmarkedMethod.Name}|" +
+                        $"{r.TimeTaken.TotalMilliseconds} ms|\n";
+                }
+                markdown += "| | |\n";
+
                 Console.WriteLine(string.Join("\n", benchmark.BenchmarkResults) + "\n");
             }
+
+            File.WriteAllText(@"C:\Users\NoahL\source\repos\AdventOfCode2020\README.md", markdown);
         }
     }
 }
