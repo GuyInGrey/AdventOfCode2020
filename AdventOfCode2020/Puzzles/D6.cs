@@ -29,14 +29,22 @@ namespace GuyInGrey_AoC2020.Puzzles
             var toReturn = 0;
             foreach (var g in groups)
             {
-                var people = g.Split('\n').Select(p => p.ToCharArray());
-                var intersection = people
-                    .Skip(1)
-                    .Aggregate(
-                        new HashSet<char>(people.First()),
-                        (h, e) => { h.IntersectWith(e); return h; }
-                    );
-                toReturn += intersection.Distinct().Count();
+                var people = g.Split('\n').ToList().ConvertAll(p => p.ToCharArray());
+                var first = people[0];
+                people.RemoveAt(0);
+                foreach (var c in first)
+                {
+                    var valid = true;
+                    foreach (var p in people)
+                    {
+                        if (!p.Contains(c))
+                        {
+                            valid = false;
+                            break;
+                        }
+                    }
+                    if (valid) { toReturn++; }
+                }
             }
 
             return toReturn;

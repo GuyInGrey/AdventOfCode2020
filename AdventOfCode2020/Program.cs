@@ -68,8 +68,7 @@ namespace GuyInGrey_AoC2020
                     var methodNames = results.Select(s => s.Select(s2 => s2.BenchmarkedMethod.Name))
                         .SelectMany(s => s).ToList().Distinct();
 
-                    var markdown = "# Advent Of Code 2020\nGuyInGrey's Solutions!\n" +
-                        "Featuring a custom-made benchmarking system, accurate to 0.4 μs.\n\n## Timing Results:\n" +
+                    var markdown = "# Advent Of Code 2020\nGuyInGrey's Solutions!\n\n## Timing Results:\n" +
                         "|Name|" + string.Join("|", methodNames) + "|\n|" + "-|".Repeat(methodNames.Count() + 1) + "\n";
 
                     foreach (var line in results)
@@ -83,7 +82,7 @@ namespace GuyInGrey_AoC2020
                         for (var i = 0; i < line.Count; i++)
                         {
                             lineOut[methodNames.ToList().IndexOf(line[i].BenchmarkedMethod.Name)] = 
-                                line[i].TimeTaken.TotalMilliseconds + " ms";
+                                "`" + line[i].TimeTaken.TotalMilliseconds + " ms`";
                         }
                         markdown += $"|{line[0].Information.Name}|{string.Join("|", lineOut)}|\n";
                     }
@@ -94,8 +93,6 @@ namespace GuyInGrey_AoC2020
 
         public static List<List<TimingResult>> BenchmarkTypes(Type[] types)
         {
-            
-
             var toReturn = new List<List<TimingResult>>();
 
             Console.WriteLine(" - 1000 iterations each -");
@@ -104,19 +101,11 @@ namespace GuyInGrey_AoC2020
                 var benchmark = new BenchmarkedPuzzle(t);
                 benchmark.Run(1000);
 
-                //foreach (var r in benchmark.BenchmarkResults)
-                //{
-                //    markdown += $"|{r.Information.Name} - {r.BenchmarkedMethod.Name}|" +
-                //        $"{r.TimeTaken.TotalMilliseconds} ms|\n";
-                //}
-                //markdown += "| | |\n";
-
                 Console.WriteLine(string.Join("\n", benchmark.BenchmarkResults) + "\n");
                 toReturn.Add(benchmark.BenchmarkResults);
             }
 
             return toReturn;
-            //File.WriteAllText(@"C:\Users\NoahL\source\repos\AdventOfCode2020\README.md", markdown);
         }
     }
 }
