@@ -11,6 +11,27 @@ namespace GuyInGrey_AoC2020
     {
         static void Main()
         {
+//            var d = new D6();
+//            d.groups = @"abc
+
+//a
+//b
+//c
+
+//ab
+//ac
+
+//a
+//a
+//a
+//a
+
+//b".Replace("\r", "").Split(new[] { "\n\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+//            //d.Setup(typeof(D6).GetAttribute<PuzzleAttribute>());
+//            Console.WriteLine(d.Part2());
+
+//            return;
+
             Thread.Sleep(2000);
 
             while (true)
@@ -39,7 +60,7 @@ namespace GuyInGrey_AoC2020
 
         public static void BenchmarkTypes(Type[] types)
         {
-            var markdown = "# AdventOfCode2020\nGuyInGrey's Solutions!\n" +
+            var markdown = "# Advent Of Code 2020\nGuyInGrey's Solutions!\n" +
                 "Featuring a custom-made benchmarking system, accurate to 0.4 μs.\n\n## Timing Results:\n" +
                 "|Name|Time|\n|-|-|\n";
 
