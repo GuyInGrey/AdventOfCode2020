@@ -70,7 +70,7 @@ namespace GuyInGrey_AoC2020
 
                     var markdown = "# Advent Of Code 2020\nGuyInGrey's Solutions!\n" +
                         "Featuring a custom-made benchmarking system, accurate to 0.4 μs.\n\n## Timing Results:\n" +
-                        "|Name|" + string.Join("|", methodNames) + "|\n|-|-|\n";
+                        "|Name|" + string.Join("|", methodNames) + "|\n|" + "-|".Repeat(methodNames.Count() + 1) + "\n";
 
                     foreach (var line in results)
                     {
