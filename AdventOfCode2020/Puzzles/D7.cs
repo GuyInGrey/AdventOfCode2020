@@ -15,71 +15,92 @@ namespace GuyInGrey_AoC2020.Puzzles
         [Benchmark(0)]
         public void Setup(PuzzleAttribute info)
         {
-            var lines = File.ReadAllText(info.DataFilePath).Replace("bags", "bag").Replace("\r", "")
+            var lines = File.ReadAllText(info.DataFilePath).Replace("bags", "bag").Replace("\r", "").Replace(".", "")
                 .Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
-            //foreach (var l in lines)
+            foreach (var l in lines)
+            {
+                var node = new BagNode()
+                {
+                    Name = l.Substring(0, l.IndexOf(" contain "))
+                };
+                Rules.Add(node);
+                if (node.Name == "shiny gold bag") { Shiny = node; }
+            }
+
+            for (var i = 0; i < lines.Length; i++)
+            {
+                var node = Rules[i];
+                var cS = lines[i].Split(new[] { " contain " }, StringSplitOptions.RemoveEmptyEntries)[1]
+                    .Split(new[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
+
+                if (cS[0] != "no other bag")
+                {
+                    foreach (var s in cS)
+                    {
+                        var num = int.Parse(s.Split(' ')[0]);
+                        var name = s.Substring(s.IndexOf(' ') + 1);
+                        var cNode = Rules.First(c => c.Name == name);
+                        node.Children.Add((cNode, num));
+                        cNode.Parents.Add(node);
+                    }
+                }
+            }
+
+            //var temp = new List<(string, (string, int)[])>();
+            //foreach (var i in lines)
+            //{
+            //    var parts = i.Split(new[] { " contain " }, StringSplitOptions.RemoveEmptyEntries);
+            //    var parent = parts[0];
+            //    var childrenS = parts[1];
+            //    var childrenS2 = new List<string>();
+
+            //    if (childrenS.Contains(", "))
+            //    {
+            //        childrenS2 = childrenS.Split(new[] { ", " }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            //    }
+            //    else
+            //    {
+            //        if (childrenS != "no other bag")
+            //        {
+            //            childrenS2.Add(childrenS);
+            //        }
+            //    }
+
+            //    var children = childrenS2.Select(c =>
+            //    {
+            //        var num = int.Parse(c.Split(' ')[0]);
+            //        var name = string.Join(" ", c.Split(' ').Skip(1));
+            //        return (name, num);
+            //    }).ToArray();
+            //    temp.Add((parent, children));
+            //}
+
+            //foreach (var t in temp)
             //{
             //    Rules.Add(new BagNode()
             //    {
-                    
+            //        Name = t.Item1,
             //    });
             //}
 
-            var temp = new List<(string, (string, int)[])>();
-            foreach (var i in lines)
-            {
-                var parts = i.Split(new[] { " contain " }, StringSplitOptions.RemoveEmptyEntries);
-                var parent = parts[0];
-                var childrenS = parts[1].Replace(".", "");
-                var childrenS2 = new List<string>();
+            //for (var i = 0; i < Rules.Count; i++)
+            //{
+            //    var node = Rules[i];
+            //    var t = temp[i];
 
-                if (childrenS.Contains(", "))
-                {
-                    childrenS2 = childrenS.Split(new[] { ", " }, StringSplitOptions.RemoveEmptyEntries).ToList();
-                }
-                else
-                {
-                    if (childrenS != "no other bag")
-                    {
-                        childrenS2.Add(childrenS);
-                    }
-                }
+            //    foreach (var c in t.Item2)
+            //    {
+            //        var cNode = Rules.First(c2 => c2.Name == c.Item1);
+            //        node.Children.Add((cNode, c.Item2));
+            //        cNode.Parents.Add(node);
+            //    }
 
-                var children = childrenS2.Select(c =>
-                {
-                    var num = int.Parse(c.Split(' ')[0]);
-                    var name = string.Join(" ", c.Split(' ').Skip(1));
-                    return (name, num);
-                }).ToArray();
-                temp.Add((parent, children));
-            }
-
-            foreach (var t in temp)
-            {
-                Rules.Add(new BagNode()
-                {
-                    Name = t.Item1,
-                });
-            }
-
-            for (var i = 0; i < Rules.Count; i++)
-            {
-                var node = Rules[i];
-                var t = temp[i];
-
-                foreach (var c in t.Item2)
-                {
-                    var cNode = Rules.First(c2 => c2.Name == c.Item1);
-                    node.Children.Add((cNode, c.Item2));
-                    cNode.Parents.Add(node);
-                }
-
-                if (node.Name == "shiny gold bag")
-                {
-                    Shiny = node;
-                }
-            }
+            //    if (node.Name == "shiny gold bag")
+            //    {
+            //        Shiny = node;
+            //    }
+            //}
         }
 
         [Benchmark(1)]
