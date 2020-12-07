@@ -72,6 +72,7 @@ namespace GuyInGrey_AoC2020
                     TimeTaken = timeTaken,
                 });
             }
+            ManageGC();
         }
 
         private void ManageGC()
