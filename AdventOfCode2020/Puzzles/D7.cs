@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 
 namespace GuyInGrey_AoC2020.Puzzles
 {
@@ -16,20 +15,28 @@ namespace GuyInGrey_AoC2020.Puzzles
         [Benchmark(0)]
         public void Setup(PuzzleAttribute info)
         {
-            var input = File.ReadAllText(info.DataFilePath).Replace("bags", "bag").Replace("\r", "")
-                .Split(new[] { '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
+            var lines = File.ReadAllText(info.DataFilePath).Replace("bags", "bag").Replace("\r", "")
+                .Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+
+            //foreach (var l in lines)
+            //{
+            //    Rules.Add(new BagNode()
+            //    {
+                    
+            //    });
+            //}
 
             var temp = new List<(string, (string, int)[])>();
-            foreach (var i in input)
+            foreach (var i in lines)
             {
-                var parts = i.Split(new[] { " contain " }, System.StringSplitOptions.RemoveEmptyEntries);
+                var parts = i.Split(new[] { " contain " }, StringSplitOptions.RemoveEmptyEntries);
                 var parent = parts[0];
                 var childrenS = parts[1].Replace(".", "");
                 var childrenS2 = new List<string>();
 
                 if (childrenS.Contains(", "))
                 {
-                    childrenS2 = childrenS.Split(new[] { ", " }, System.StringSplitOptions.RemoveEmptyEntries).ToList();
+                    childrenS2 = childrenS.Split(new[] { ", " }, StringSplitOptions.RemoveEmptyEntries).ToList();
                 }
                 else
                 {
@@ -65,6 +72,7 @@ namespace GuyInGrey_AoC2020.Puzzles
                 {
                     var cNode = Rules.First(c2 => c2.Name == c.Item1);
                     node.Children.Add((cNode, c.Item2));
+                    cNode.Parents.Add(node);
                 }
 
                 if (node.Name == "shiny gold bag")
@@ -77,63 +85,15 @@ namespace GuyInGrey_AoC2020.Puzzles
         [Benchmark(1)]
         public int Part1()
         {
-            var searched = new List<(string, bool)>();
-
-            var contains = 0;
-            foreach (var r in Rules)
-            {
-                if (ContainsBag(r, Shiny, ref searched))
-                {
-                    contains++;
-                }
-            }
-
-            return contains;
+            var p = new List<BagNode>();
+            Shiny.GetAllParents(ref p);
+            return p.Count;
         }
 
         [Benchmark(2)]
         public int Part2()
         {
-            return CountChildren(Shiny) - 1;
-        }
-
-        public bool ContainsBag(BagNode baseBag, BagNode searchingFor, ref List<(string, bool)> searched)
-        {
-            var a = searched.Where(s => s.Item1 == baseBag.Name);
-            if (a.Count() > 0)
-            {
-                return a.First().Item2;
-            }
-
-            foreach (var b in baseBag.Children)
-            {
-                if (b.Item1.Name == searchingFor.Name)
-                {
-                    return true;
-                }
-            }
-
-            foreach (var b in baseBag.Children)
-            {
-                if (ContainsBag(b.Item1, searchingFor, ref searched))
-                {
-                    searched.Add((baseBag.Name, true));
-                    return true;
-                }
-            }
-
-            searched.Add((baseBag.Name, false));
-            return false;
-        }
-
-        public int CountChildren(BagNode baseBag)
-        {
-            var total = 1;
-            foreach (var b in baseBag.Children)
-            {
-                total += CountChildren(b.Item1) * b.Item2;
-            }
-            return total;
+            return Shiny.CountAllChildren();
         }
     }
 
@@ -141,5 +101,29 @@ namespace GuyInGrey_AoC2020.Puzzles
     {
         public string Name;
         public List<(BagNode, int)> Children = new List<(BagNode, int)>();
+        public List<BagNode> Parents = new List<BagNode>();
+
+        public void GetAllParents(ref List<BagNode> collected)
+        {
+            foreach (var p in Parents)
+            {
+                if (!collected.Contains(p)) { collected.Add(p); }
+            }
+
+            foreach (var b in Parents)
+            {
+                b.GetAllParents(ref collected);
+            }
+        }
+
+        public int CountAllChildren()
+        {
+            var toReturn = 0;
+            foreach (var c in Children)
+            {
+                toReturn += (1 + c.Item1.CountAllChildren()) * c.Item2;
+            }
+            return toReturn;
+        }
     }
 }
