@@ -95,11 +95,12 @@ namespace GuyInGrey_AoC2020
         {
             var toReturn = new List<List<TimingResult>>();
 
-            Console.WriteLine(" - 1000 iterations each -");
+            var iter = 1;
+            Console.WriteLine(" - " + iter + " iterations each -");
             foreach (var t in types)
             {
                 var benchmark = new BenchmarkedPuzzle(t);
-                benchmark.Run(1000);
+                benchmark.Run(iter);
 
                 Console.WriteLine(string.Join("\n", benchmark.BenchmarkResults) + "\n");
                 toReturn.Add(benchmark.BenchmarkResults);
