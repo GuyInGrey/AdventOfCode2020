@@ -12,27 +12,6 @@ namespace GuyInGrey_AoC2020
     {
         static void Main()
         {
-//            var d = new D6();
-//            d.groups = @"abc
-
-//a
-//b
-//c
-
-//ab
-//ac
-
-//a
-//a
-//a
-//a
-
-//b".Replace("\r", "").Split(new[] { "\n\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
-//            //d.Setup(typeof(D6).GetAttribute<PuzzleAttribute>());
-//            Console.WriteLine(d.Part2());
-
-//            return;
-
             Thread.Sleep(2000);
 
             while (true)
@@ -95,7 +74,7 @@ namespace GuyInGrey_AoC2020
         {
             var toReturn = new List<List<TimingResult>>();
 
-            var iter = 1;
+            var iter = 1000;
             Console.WriteLine(" - " + iter + " iterations each -");
             foreach (var t in types)
             {
