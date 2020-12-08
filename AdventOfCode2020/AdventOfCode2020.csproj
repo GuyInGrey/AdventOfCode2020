@@ -58,6 +58,7 @@
     <Compile Include="Puzzles\D6.cs" />
     <Compile Include="Puzzles\D7.cs" />
     <Compile Include="Puzzles\D8.cs" />
+    <Compile Include="Puzzles\DT.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

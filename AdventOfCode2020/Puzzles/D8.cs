@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -28,19 +29,19 @@ namespace GuyInGrey_AoC2020.Puzzles
         {
             for (var i = 0; i < Computer.InstructionCount; i++)
             {
-                var op = Computer.Instructions[i];
-                if (op.opcode == "jmp")
+                var (opcode, value) = Computer.Instructions[i];
+                if (opcode == OpCodeD8.Jump)
                 {
-                    Computer.Instructions[i] = ("nop", op.value);
+                    Computer.Instructions[i] = (OpCodeD8.NoOperator, value);
                 }
-                else if (op.opcode == "nop")
+                else if (opcode == OpCodeD8.NoOperator)
                 {
-                    Computer.Instructions[i] = ("jmp", op.value);
+                    Computer.Instructions[i] = (OpCodeD8.Jump, value);
                 }
                 else { continue; }
                 Computer.StepUntilFinished();
 
-                if (Computer.State == ComputerStateD8.Terminated)
+                if (Computer.CurrentState == ComputerStateD8.Terminated)
                 {
                     return Computer.Accumulator;
                 } 
@@ -54,8 +55,8 @@ namespace GuyInGrey_AoC2020.Puzzles
 
     public class ComputerD8
     {
-        public (string opcode, int value)[] OriginalInstructions;
-        public (string opcode, int value)[] Instructions;
+        public (OpCodeD8 opcode, int value)[] OriginalInstructions;
+        public (OpCodeD8 opcode, int value)[] Instructions;
         public int InstructionCount;
         public bool[] Visited;
 
@@ -65,16 +66,24 @@ namespace GuyInGrey_AoC2020.Puzzles
         public int InstructionPointer;
 
         public int Accumulator;
-        public ComputerStateD8 State;
+        public ComputerStateD8 CurrentState;
+
+        Dictionary<string, OpCodeD8> OpMap = new Dictionary<string, OpCodeD8>()
+        {
+            { "acc", OpCodeD8.Accumulator },
+            { "jmp", OpCodeD8.Jump },
+            { "nop", OpCodeD8.NoOperator },
+        };
 
         public ComputerD8(string[] instructions)
         {
-            Instructions = new (string, int)[instructions.Length];
+            Instructions = new (OpCodeD8, int)[instructions.Length];
             var i = 0;
             foreach (var inst in instructions)
             {
                 var split = inst.Split(' ');
-                Instructions[i] = (split[0], int.Parse(split[1]));
+
+                Instructions[i] = (OpMap[split[0]], int.Parse(split[1]));
                 i++;
             }
             OriginalInstructions = Instructions.ToArray();
@@ -88,27 +97,28 @@ namespace GuyInGrey_AoC2020.Puzzles
         /// </summary>
         public void Step()
         {
-            if (Visited[InstructionPointer]) { State = ComputerStateD8.LoopDetected; return; }
+            if (Visited[InstructionPointer]) { CurrentState = ComputerStateD8.LoopDetected; return; }
+            if (CurrentState != ComputerStateD8.Normal) { return; }
 
             var instModifier = 1;
 
-            var currentOp = Instructions[InstructionPointer];
-            switch (currentOp.opcode)
+            var (opcode, value) = Instructions[InstructionPointer];
+            switch (opcode)
             {
-                case "acc":
-                    Accumulator += currentOp.value;
+                case OpCodeD8.Accumulator:
+                    Accumulator += value;
                     break;
-                case "jmp":
-                    instModifier = currentOp.value;
+                case OpCodeD8.Jump:
+                    instModifier = value;
                     break;
-                case "nop":
+                case OpCodeD8.NoOperator:
                     break;
             }
 
             Visited[InstructionPointer] = true;
             InstructionPointer += instModifier;
 
-            State = InstructionPointer >= InstructionCount ? 
+            CurrentState = InstructionPointer >= InstructionCount ? 
                 ComputerStateD8.Terminated : 
                 ComputerStateD8.Normal;
         }
@@ -116,7 +126,7 @@ namespace GuyInGrey_AoC2020.Puzzles
         public void StepUntilFinished()
         {
             do { Step(); } 
-            while (State == ComputerStateD8.Normal);
+            while (CurrentState == ComputerStateD8.Normal);
         }
 
         public void Reset()
@@ -125,7 +135,7 @@ namespace GuyInGrey_AoC2020.Puzzles
             Accumulator = 0;
             Visited = new bool[InstructionCount];
             Instructions = OriginalInstructions.ToArray();
-            State = ComputerStateD8.Normal;
+            CurrentState = ComputerStateD8.Normal;
         }
     }
 
@@ -134,5 +144,12 @@ namespace GuyInGrey_AoC2020.Puzzles
         Normal,
         LoopDetected,
         Terminated,
+    }
+
+    public enum OpCodeD8
+    {
+        NoOperator = 0,
+        Accumulator = 1,
+        Jump = 2,
     }
 }
