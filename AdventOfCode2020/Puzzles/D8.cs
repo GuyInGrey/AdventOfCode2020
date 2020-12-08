@@ -8,12 +8,12 @@ namespace GuyInGrey_AoC2020.Puzzles
     [Puzzle(@"PuzzleInputs\Day8\input.txt", "Day8")]
     public class D8
     {
-        ComputerD7 Computer;
+        ComputerD8 Computer;
 
         [Benchmark(0)]
         public void Setup(PuzzleAttribute info)
         {
-            Computer = new ComputerD7(File.ReadAllLines(info.DataFilePath));
+            Computer = new ComputerD8(File.ReadAllLines(info.DataFilePath));
         }
 
         [Benchmark(1)]
@@ -40,7 +40,7 @@ namespace GuyInGrey_AoC2020.Puzzles
                 else { continue; }
                 Computer.StepUntilFinished();
 
-                if (Computer.State == ComputerState.Terminated)
+                if (Computer.State == ComputerStateD8.Terminated)
                 {
                     return Computer.Accumulator;
                 } 
@@ -52,7 +52,7 @@ namespace GuyInGrey_AoC2020.Puzzles
         }
     }
 
-    public class ComputerD7
+    public class ComputerD8
     {
         public (string opcode, int value)[] OriginalInstructions;
         public (string opcode, int value)[] Instructions;
@@ -65,9 +65,9 @@ namespace GuyInGrey_AoC2020.Puzzles
         public int InstructionPointer;
 
         public int Accumulator;
-        public ComputerState State;
+        public ComputerStateD8 State;
 
-        public ComputerD7(string[] instructions)
+        public ComputerD8(string[] instructions)
         {
             Instructions = new (string, int)[instructions.Length];
             var i = 0;
@@ -88,7 +88,7 @@ namespace GuyInGrey_AoC2020.Puzzles
         /// </summary>
         public void Step()
         {
-            if (Visited[InstructionPointer]) { State = ComputerState.LoopDetected; return; }
+            if (Visited[InstructionPointer]) { State = ComputerStateD8.LoopDetected; return; }
 
             var instModifier = 1;
 
@@ -109,14 +109,14 @@ namespace GuyInGrey_AoC2020.Puzzles
             InstructionPointer += instModifier;
 
             State = InstructionPointer >= InstructionCount ? 
-                ComputerState.Terminated : 
-                ComputerState.Normal;
+                ComputerStateD8.Terminated : 
+                ComputerStateD8.Normal;
         }
 
         public void StepUntilFinished()
         {
             do { Step(); } 
-            while (State == ComputerState.Normal);
+            while (State == ComputerStateD8.Normal);
         }
 
         public void Reset()
@@ -125,11 +125,11 @@ namespace GuyInGrey_AoC2020.Puzzles
             Accumulator = 0;
             Visited = new bool[InstructionCount];
             Instructions = OriginalInstructions.ToArray();
-            State = ComputerState.Normal;
+            State = ComputerStateD8.Normal;
         }
     }
 
-    public enum ComputerState
+    public enum ComputerStateD8
     {
         Normal,
         LoopDetected,
