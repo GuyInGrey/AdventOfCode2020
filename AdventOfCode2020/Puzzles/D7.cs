@@ -58,14 +58,20 @@ namespace GuyInGrey_AoC2020.Puzzles
         [Benchmark(2)]
         public int Part2()
         {
-            return Shiny.CountAllChildren();
+            return (int)Shiny.CountAllChildren();
+        }
+
+        //[Benchmark(3)]
+        public (BagNode, long) FindLargest()
+        {
+            return Rules.Select(r => (r, r.CountAllChildren())).OrderBy(c => c.Item2).Last();
         }
     }
 
     public class BagNode
     {
         public string Name;
-        public List<(BagNode, int)> Children = new List<(BagNode, int)>();
+        public List<(BagNode, long)> Children = new List<(BagNode, long)>();
         public List<BagNode> Parents = new List<BagNode>();
 
         public void GetAllParents(ref List<BagNode> collected)
@@ -81,9 +87,9 @@ namespace GuyInGrey_AoC2020.Puzzles
             }
         }
 
-        public int CountAllChildren()
+        public long CountAllChildren()
         {
-            var toReturn = 0;
+            var toReturn = 0l;
             foreach (var c in Children)
             {
                 toReturn += (1 + c.Item1.CountAllChildren()) * c.Item2;
