@@ -5,7 +5,6 @@ using System.Linq;
 
 namespace GuyInGrey_AoC2020.Puzzles
 {
-
     [Puzzle(@"PuzzleInputs\Day8\input.txt", "Day8")]
     public class D8
     {

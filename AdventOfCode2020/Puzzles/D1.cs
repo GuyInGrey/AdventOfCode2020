@@ -24,28 +24,28 @@ namespace GuyInGrey_AoC2020.Puzzles
         [Benchmark(1)]
         public object Part1()
         {
-            return string.Join(", ", FindAddingNums(Numbers, 2020, 2));
+            return string.Join(", ", FindAddingNums(Numbers.Select(n => (long)n).ToList(), 2020, 2));
         }
 
         [Benchmark(2)]
         public object Part2()
         {
-            return string.Join(", ", FindAddingNums(Numbers, 2020, 3));
+            return string.Join(", ", FindAddingNums(Numbers.Select(n => (long)n).ToList(), 2020, 3));
         }
 
         /// <summary>
         /// REQUIRES <paramref name="input"/> TO BE SORTED
         /// </summary>
-        public List<int> FindAddingNums(List<int> input, int numToAddTo, int numCount)
+        public static List<long> FindAddingNums(List<long> input, long numToAddTo, long numCount)
         {
             if (numCount == 1)
             {
                 foreach (var num in input)
                 {
-                    if (num > numToAddTo) { return new List<int>(); }
-                    if (num == numToAddTo) { return new List<int>() { num }; }
+                    if (num > numToAddTo) { return new List<long>(); }
+                    if (num == numToAddTo) { return new List<long>() { num }; }
                 }
-                return new List<int>();
+                return new List<long>();
             }
             else
             {
@@ -61,7 +61,7 @@ namespace GuyInGrey_AoC2020.Puzzles
                     }
                 }
 
-                return new List<int>();
+                return new List<long>();
             }
         }
     }
