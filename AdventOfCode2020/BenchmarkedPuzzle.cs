@@ -47,6 +47,7 @@ namespace GuyInGrey_AoC2020
                 object result = null;
 
                 var startTime = HighResolutionDateTime.UtcNow;
+                var iterationsRan = 0;
                 foreach (var i in instances)
                 {
                     if (m.GetParameters().Length > 0)
@@ -57,17 +58,20 @@ namespace GuyInGrey_AoC2020
                     {
                         result = m.Invoke(i, null);
                     }
+                    iterationsRan++;
+
+                    if ((HighResolutionDateTime.UtcNow - startTime).TotalSeconds > 30) { break; }
                 }
                 var endTime = HighResolutionDateTime.UtcNow;
                 var timeTaken = endTime - startTime;
-                timeTaken = new TimeSpan(timeTaken.Ticks / iterations);
+                timeTaken = new TimeSpan(timeTaken.Ticks / iterationsRan);
 
                 BenchmarkResults.Add(new TimingResult()
                 {
                     Information = Info,
                     BenchmarkedType = ClassType,
                     BenchmarkedMethod = m,
-                    IterationsRan = iterations,
+                    IterationsRan = iterationsRan,
                     Result = result,
                     TimeTaken = timeTaken,
                 });
