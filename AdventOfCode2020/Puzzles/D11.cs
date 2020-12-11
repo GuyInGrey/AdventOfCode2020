@@ -8,10 +8,11 @@ namespace GuyInGrey_AoC2020.Puzzles
     [Puzzle(@"PuzzleInputs\Day11\input.txt", "Day11", 11)]
     public class D11
     {
-        /// <summary>
-        /// 0 = floor, 1 = empty, 2 = occupied
-        /// </summary>
-        int[,] Seats;
+        int width;
+        int height;
+
+        Seat[,] SeatsP1New;
+        Seat[,] SeatsP2New;
 
         [Benchmark(0)]
         public void Setup(PuzzleAttribute info)
@@ -19,186 +20,183 @@ namespace GuyInGrey_AoC2020.Puzzles
             var input = File.ReadAllText(info.DataFilePath).Replace("\r", "")
                 .Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
-            Seats = new int[input[0].Length, input.Length];
+            width = input[0].Length;
+            height = input.Length;
+
+            SeatsP1New = new Seat[width, height];
+            SeatsP2New = new Seat[width, height];
 
             var y = 0;
+            var x = 0;
             foreach (var line in input)
             {
-                var x = 0;
                 foreach (var ch in line)
                 {
-                    Seats[x, y] =
-                        ch == '.' ? 0 :
-                        ch == 'L' ? 1 :
-                        2;
+                    if (ch == 'L') 
+                    {
+                        SeatsP1New[x,y] = new Seat(x, y, width, height, ref SeatsP1New);
+                        SeatsP2New[x, y] = new Seat(x, y, width, height, ref SeatsP2New);
+                    }
                     x++;
                 }
                 y++;
+                x = 0;
+            }
+
+            for (y = 0; y < height; y++)
+            {
+                for (x = 0; x < width; x++)
+                {
+                    SeatsP1New[x, y]?.SetSurrounding(SeatsP1New);
+                    SeatsP2New[x, y]?.SetSurrounding(SeatsP2New);
+                }
             }
         }
 
         [Benchmark(1)]
         public int Part1()
         {
-            var currentState = (int[,])Seats.Clone();
-            var previousState = new int[Seats.GetLength(0), Seats.GetLength(1)];
+            return RunPart(1);
+        }
 
-            while (!MapsMatch(currentState, previousState))
+        public int RunPart(int part)
+        {
+            var s = part == 1 ? SeatsP1New : SeatsP2New;
+
+            Seat.AnyChange = true;
+            while (Seat.AnyChange)
             {
-                //Console.WriteLine(GetVisual(currentState));
-                //Console.WriteLine(CountType(currentState, 2));
-                previousState = currentState;
-                currentState = Step(currentState);
-            }
+                Seat.AnyChange = false;
 
-            return CountType(currentState, 2);
+                for (var y = 0; y < height; y++)
+                {
+                    for (var x = 0; x < width; x++)
+                    {
+                        s[x, y]?.Step(part);
+                    }
+                }
+                for (var y = 0; y < height; y++)
+                {
+                    for (var x = 0; x < width; x++)
+                    {
+                        if (s[x, y] is null) { continue; }
+                        s[x, y].Occupied = s[x, y].NextOccupied;
+                    }
+                }
+            }
+            var t = 0;
+
+            for (var y = 0; y < height; y++)
+            {
+                for (var x = 0; x < width; x++)
+                {
+                    if (s[x, y] is null) { continue; }
+                    if (s[x, y].Occupied) { t++; }
+                }
+            }
+            return t;
         }
 
         [Benchmark(2)]
         public int Part2()
         {
-            var currentState = (int[,])Seats.Clone();
-            var previousState = new int[Seats.GetLength(0), Seats.GetLength(1)];
-
-            while (!MapsMatch(currentState, previousState))
-            {
-                //Console.WriteLine(GetVisual(currentState));
-                //Console.WriteLine(CountType(currentState, 2));
-                previousState = currentState;
-                currentState = Step2(currentState);
-            }
-
-            return CountType(currentState, 2);
+            return RunPart(2);
         }
-
-        public bool MapsMatch(int[,] a, int[,] b)
-        {
-            for (var y = 0; y < a.GetLength(1); y++)
-            {
-                for (var x = 0; x < a.GetLength(0); x++)
-                {
-                    if (a[x,y] != b[x,y]) { return false; }
-                }
-            }
-
-            return true;
-        }
-
-        public int[,] Step(int[,] a)
-        {
-            var width = a.GetLength(0);
-            var height = a.GetLength(1);
-
-            var b = (int[,])a.Clone();
-            for (var y = 0; y < height; y++)
-            {
-                for (var x = 0; x < width; x++)
-                {
-                    var sitting = 0;
-
-                    for (var y2 = -1; y2 <= 1; y2++)
-                    {
-                        for (var x2 = -1; x2 <= 1; x2++)
-                        {
-                            var x3 = x + x2;
-                            var y3 = y + y2;
-                            if (x3 < 0 || x3 >= width || y3 < 0 || y3 >= height) { continue; }
-                            if (!(x3 == x && y3 == y) && a[x3, y3] == 2) { sitting++; }
-                        }
-                    }
-
-                    if (a[x, y] == 1 && sitting == 0) { b[x, y] = 2; }
-                    else if (a[x, y] == 2 && sitting >= 4) { b[x, y] = 1; }
-                }
-            }
-
-            return b;
-        }
-
-        public int[,] Step2(int[,] a)
-        {
-            var width = a.GetLength(0);
-            var height = a.GetLength(1);
-
-            var b = (int[,])a.Clone();
-            for (var y = 0; y < height; y++)
-            {
-                for (var x = 0; x < width; x++)
-                {
-                    var sitting = new List<int>()
-                    {
-                        Direction(1, 0),
-                        Direction(1, 1),
-                        Direction(0, 1),
-                        Direction(-1, 1),
-                        Direction(-1, 0),
-                        Direction(-1, -1),
-                        Direction(0, -1),
-                        Direction(1, -1),
-                    }.Sum();
-
-                    int Direction(int xM, int yM)
-                    {
-                        if (x == 9 && y == 7)
-                        {
-
-                        }
-
-                        var x2 = x;
-                        var y2 = y;
-
-                        while (true)
-                        {
-                            x2 += xM;
-                            y2 += yM;
-                            if (x2 < 0 || x2 >= width || y2 < 0 || y2 >= height
-                                || a[x2, y2] == 1)
-                            {
-                                return 0;
-                            }
-                            else if (a[x2, y2] == 2)
-                            {
-                                return 1;
-                            }
-                        }
-                    }
-
-                    if (a[x, y] == 1 && sitting == 0) { b[x, y] = 2; }
-                    else if (a[x, y] == 2 && sitting >= 5) { b[x, y] = 1; }
-                }
-            }
-
-            return b;
-        }
-
-        public int CountType(int[,] a, int type)
-        {
-            var amount = 0;
-            for (var y = 0; y < a.GetLength(1); y++)
-            {
-                for (var x = 0; x < a.GetLength(0); x++)
-                {
-                    if (a[x, y] == type) { amount++; }
-                }
-            }
-            return amount;
-        }
-
-        public string GetVisual(int[,] a)
+        
+        public void Visualize(Dictionary<(int, int), Seat> m)
         {
             var s = "";
-            for (var y = 0; y < a.GetLength(1); y++)
+            for (var y = 0; y < height; y++)
             {
-                for (var x = 0; x < a.GetLength(0); x++)
+                for (var x = 0; x < width; x++)
                 {
-                    var v = a[x, y];
-                    s += v == 0 ? '.' :
-                        v == 1 ? 'L' : '#';
+                    if (!m.ContainsKey((x, y)))
+                    {
+                        s += ".";
+                        continue;
+                    }
+                    s += m[(x, y)].Occupied ? "#" : "L";
                 }
                 s += "\n";
             }
+            Console.WriteLine(s);
+        }
 
-            return s;
+        public class Seat
+        {
+            public static bool AnyChange;
+
+            public int X;
+            public int Y;
+            public bool Occupied;
+            public bool NextOccupied;
+
+            public int MapWidth;
+            public int MapHeight;
+
+            public List<(int, int)> SurroundingP1 = new List<(int, int)>();
+            public List<(int, int)> SurroundingP2 = new List<(int, int)>();
+
+            public Seat[,] Seats;
+
+            public Seat(int x, int y, int w, int h, ref Seat[,] s)
+            { X = x; Y = y; MapWidth = w; MapHeight = h; Seats = s; }
+
+            public void SetSurrounding(Seat[,] spaces)
+            {
+                var dirs = new List<(int, int)>();
+                for (var y2 = -1; y2 <= 1; y2++)
+                {
+                    for (var x2 = -1; x2 <= 1; x2++)
+                    {
+                        if (!(x2 == 0 && y2 == 0)) { dirs.Add((x2, y2)); }
+                        var x3 = X + x2;
+                        var y3 = Y + y2;
+                        if (x3 < 0 || x3 >= MapWidth || y3 < 0 || y3 >= MapHeight ||
+                            (x3 == X && y3 == Y)) { continue; }
+                        if (!(spaces[x3, y3] is null)) { SurroundingP1.Add((x3, y3)); }
+                    }
+                }
+
+                var seats = dirs.Select(d => Direction(d.Item1, d.Item2));
+
+                (int, int) Direction(int xM, int yM)
+                {
+                    var x2 = X; var y2 = Y;
+                    while (true)
+                    {
+                        x2 += xM;
+                        y2 += yM;
+                        if (x2 < 0 || x2 >= MapWidth || y2 < 0 || y2 >= MapHeight)
+                        {
+                            return (int.MaxValue, int.MaxValue);
+                        }
+                        else if (!(spaces[x2, y2] is null))
+                        {
+                            return (x2, y2);
+                        }
+                    }
+                }
+
+                SurroundingP2 = seats.Where(s => s != (int.MaxValue, int.MaxValue)).ToList();
+            }
+
+            public void Step(int part)
+            {
+                var toSearch = part == 1 ? SurroundingP1 : SurroundingP2;
+                var max = part == 1 ? 4 : 5;
+                var occAround = 0;
+                foreach (var t in toSearch)
+                {
+                    if (Seats[t.Item1, t.Item2].Occupied) { occAround++; }
+                }
+
+                NextOccupied = Occupied ? 
+                    occAround < max : 
+                    occAround == 0;
+
+                if (NextOccupied != Occupied) { AnyChange = true; }
+            }
         }
     }
 }

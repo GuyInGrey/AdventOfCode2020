@@ -75,7 +75,7 @@ namespace GuyInGrey_AoC2020
             types = types.OrderBy(t => (t.GetAttribute<PuzzleAttribute>()).Priority).ToArray();
             var toReturn = new List<List<TimingResult>>();
 
-            var iter = 1000;
+            var iter = 500;
             Console.WriteLine(" - " + iter + " iterations each -");
             foreach (var t in types)
             {

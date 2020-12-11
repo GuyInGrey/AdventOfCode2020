@@ -60,7 +60,7 @@ namespace GuyInGrey_AoC2020
                     }
                     iterationsRan++;
 
-                    if ((HighResolutionDateTime.UtcNow - startTime).TotalSeconds > 30) { break; }
+                    //if ((HighResolutionDateTime.UtcNow - startTime).TotalSeconds > 30) { break; }
                 }
                 var endTime = HighResolutionDateTime.UtcNow;
                 var timeTaken = endTime - startTime;
