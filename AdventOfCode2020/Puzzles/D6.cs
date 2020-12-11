@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace GuyInGrey_AoC2020.Puzzles
 {
-    [Puzzle(@"PuzzleInputs\Day6\input.txt", "Day6")]
+    [Puzzle(@"PuzzleInputs\Day6\input.txt", "Day6", 6)]
     public class D6
     {
         public List<string> groups;

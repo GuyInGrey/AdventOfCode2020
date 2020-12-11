@@ -6,11 +6,13 @@ namespace GuyInGrey_AoC2020
     {
         public string DataFilePath { get; }
         public string Name { get; }
+        public int Priority { get; }
 
-        public PuzzleAttribute(string filePath, string name)
+        public PuzzleAttribute(string filePath, string name, int priority)
         {
             DataFilePath = filePath;
             Name = name;
+            Priority = priority;
         }
     }
 }

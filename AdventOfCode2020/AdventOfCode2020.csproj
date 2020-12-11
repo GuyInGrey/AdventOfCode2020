@@ -51,6 +51,7 @@
     <Compile Include="BenchmarkedPuzzle.cs" />
     <Compile Include="Attributes\PuzzleAttribute.cs" />
     <Compile Include="Puzzles\D1.cs" />
+    <Compile Include="Puzzles\D10.cs" />
     <Compile Include="Puzzles\D2.cs" />
     <Compile Include="Puzzles\D3.cs" />
     <Compile Include="Puzzles\D4.cs" />

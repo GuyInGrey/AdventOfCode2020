@@ -72,6 +72,7 @@ namespace GuyInGrey_AoC2020
 
         public static List<List<TimingResult>> BenchmarkTypes(Type[] types)
         {
+            types = types.OrderBy(t => (t.GetAttribute<PuzzleAttribute>()).Priority).ToArray();
             var toReturn = new List<List<TimingResult>>();
 
             var iter = 1000;

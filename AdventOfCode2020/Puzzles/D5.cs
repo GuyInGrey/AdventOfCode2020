@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace GuyInGrey_AoC2020.Puzzles
 {
-    [Puzzle(filePath: @"PuzzleInputs\Day5\input.txt", name: "Day5")]
+    [Puzzle(@"PuzzleInputs\Day5\input.txt", "Day5", 5)]
     public class D5
     {
         List<int> Indices;

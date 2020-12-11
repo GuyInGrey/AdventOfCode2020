@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace GuyInGrey_AoC2020.Puzzles
 {
-    [Puzzle(filePath: @"PuzzleInputs\Day1\input.txt", name: "Day1")]
+    [Puzzle(@"PuzzleInputs\Day1\input.txt", "Day1", 1)]
     public class D1
     {
         List<int> Numbers;

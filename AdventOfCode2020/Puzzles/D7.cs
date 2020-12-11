@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace GuyInGrey_AoC2020.Puzzles
 {
-    [Puzzle(@"PuzzleInputs\Day7\input.txt", "Day7")]
+    [Puzzle(@"PuzzleInputs\Day7\input.txt", "Day7", 7)]
     public class D7
     {
         List<BagNode> Rules = new List<BagNode>();

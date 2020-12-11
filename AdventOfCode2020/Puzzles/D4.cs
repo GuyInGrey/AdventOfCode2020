@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace GuyInGrey_AoC2020.Puzzles
 {
-    [Puzzle(filePath: @"PuzzleInputs\Day4\input.txt", name: "Day4")]
+    [Puzzle(@"PuzzleInputs\Day4\input.txt", "Day4", 4)]
     public class D4
     {
         string[] Passports;

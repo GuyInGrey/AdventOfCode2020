@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace GuyInGrey_AoC2020.Puzzles
 {
-    [Puzzle(filePath: @"PuzzleInputs\Day3\input.txt", name: "Day3")]
+    [Puzzle(@"PuzzleInputs\Day3\input.txt", "Day3", 3)]
     public class D3
     {
         TreeMap Map;

@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace GuyInGrey_AoC2020.Puzzles
 {
-    [Puzzle(filePath: @"PuzzleInputs\Day2\input.txt", name: "Day2")]
+    [Puzzle(@"PuzzleInputs\Day2\input.txt", "Day2", 2)]
     public class D2
     {
         List<GroupCollection> Input;
