@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace GuyInGrey_AoC2020.Puzzles
 {
@@ -68,32 +69,42 @@ namespace GuyInGrey_AoC2020.Puzzles
             {
                 Seat.AnyChange = false;
 
-                for (var y = 0; y < height; y++)
+                Parallel.For(0, height, new ParallelOptions()
+                {
+                    MaxDegreeOfParallelism = 4,
+                }, y =>
                 {
                     for (var x = 0; x < width; x++)
                     {
                         s[x, y]?.Step(part);
                     }
-                }
-                for (var y = 0; y < height; y++)
+                });
+
+                Parallel.For(0, height, new ParallelOptions()
+                {
+                    MaxDegreeOfParallelism = 4,
+                }, y =>
                 {
                     for (var x = 0; x < width; x++)
                     {
                         if (s[x, y] is null) { continue; }
                         s[x, y].Occupied = s[x, y].NextOccupied;
                     }
-                }
+                });
             }
             var t = 0;
 
-            for (var y = 0; y < height; y++)
+            Parallel.For(0, height, new ParallelOptions()
+            {
+                MaxDegreeOfParallelism = 4,
+            }, y =>
             {
                 for (var x = 0; x < width; x++)
                 {
                     if (s[x, y] is null) { continue; }
                     if (s[x, y].Occupied) { t++; }
                 }
-            }
+            });
             return t;
         }
 
