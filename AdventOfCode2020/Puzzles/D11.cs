@@ -11,8 +11,8 @@ namespace GuyInGrey_AoC2020.Puzzles
         int width;
         int height;
 
-        Seat[,] SeatsP1New;
-        Seat[,] SeatsP2New;
+        Seat[,] SeatsP1;
+        Seat[,] SeatsP2;
 
         [Benchmark(0)]
         public void Setup(PuzzleAttribute info)
@@ -23,8 +23,8 @@ namespace GuyInGrey_AoC2020.Puzzles
             width = input[0].Length;
             height = input.Length;
 
-            SeatsP1New = new Seat[width, height];
-            SeatsP2New = new Seat[width, height];
+            SeatsP1 = new Seat[width, height];
+            SeatsP2 = new Seat[width, height];
 
             var y = 0;
             var x = 0;
@@ -34,8 +34,8 @@ namespace GuyInGrey_AoC2020.Puzzles
                 {
                     if (ch == 'L') 
                     {
-                        SeatsP1New[x,y] = new Seat(x, y, width, height, ref SeatsP1New);
-                        SeatsP2New[x, y] = new Seat(x, y, width, height, ref SeatsP2New);
+                        SeatsP1[x,y] = new Seat(x, y, width, height, ref SeatsP1);
+                        SeatsP2[x, y] = new Seat(x, y, width, height, ref SeatsP2);
                     }
                     x++;
                 }
@@ -47,8 +47,8 @@ namespace GuyInGrey_AoC2020.Puzzles
             {
                 for (x = 0; x < width; x++)
                 {
-                    SeatsP1New[x, y]?.SetSurrounding(SeatsP1New);
-                    SeatsP2New[x, y]?.SetSurrounding(SeatsP2New);
+                    SeatsP1[x, y]?.SetSurrounding(SeatsP1);
+                    SeatsP2[x, y]?.SetSurrounding(SeatsP2);
                 }
             }
         }
@@ -61,7 +61,7 @@ namespace GuyInGrey_AoC2020.Puzzles
 
         public int RunPart(int part)
         {
-            var s = part == 1 ? SeatsP1New : SeatsP2New;
+            var s = part == 1 ? SeatsP1 : SeatsP2;
 
             Seat.AnyChange = true;
             while (Seat.AnyChange)
@@ -102,25 +102,6 @@ namespace GuyInGrey_AoC2020.Puzzles
         {
             return RunPart(2);
         }
-        
-        public void Visualize(Dictionary<(int, int), Seat> m)
-        {
-            var s = "";
-            for (var y = 0; y < height; y++)
-            {
-                for (var x = 0; x < width; x++)
-                {
-                    if (!m.ContainsKey((x, y)))
-                    {
-                        s += ".";
-                        continue;
-                    }
-                    s += m[(x, y)].Occupied ? "#" : "L";
-                }
-                s += "\n";
-            }
-            Console.WriteLine(s);
-        }
 
         public class Seat
         {
@@ -158,27 +139,27 @@ namespace GuyInGrey_AoC2020.Puzzles
                     }
                 }
 
-                var seats = dirs.Select(d => Direction(d.Item1, d.Item2));
-
-                (int, int) Direction(int xM, int yM)
-                {
-                    var x2 = X; var y2 = Y;
-                    while (true)
-                    {
-                        x2 += xM;
-                        y2 += yM;
-                        if (x2 < 0 || x2 >= MapWidth || y2 < 0 || y2 >= MapHeight)
-                        {
-                            return (int.MaxValue, int.MaxValue);
-                        }
-                        else if (!(spaces[x2, y2] is null))
-                        {
-                            return (x2, y2);
-                        }
-                    }
-                }
+                var seats = dirs.Select(d => Direction(d.Item1, d.Item2, ref spaces));
 
                 SurroundingP2 = seats.Where(s => s != (int.MaxValue, int.MaxValue)).ToList();
+            }
+
+            (int, int) Direction(int xM, int yM, ref Seat[,] spaces)
+            {
+                var x2 = X; var y2 = Y;
+                while (true)
+                {
+                    x2 += xM;
+                    y2 += yM;
+                    if (x2 < 0 || x2 >= MapWidth || y2 < 0 || y2 >= MapHeight)
+                    {
+                        return (int.MaxValue, int.MaxValue);
+                    }
+                    else if (!(spaces[x2, y2] is null))
+                    {
+                        return (x2, y2);
+                    }
+                }
             }
 
             public void Step(int part)

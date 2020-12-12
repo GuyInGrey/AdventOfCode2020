@@ -3,7 +3,7 @@ using System.IO;
 
 namespace GuyInGrey_AoC2020.Puzzles
 {
-    //[Puzzle(@"PuzzleInputs\Day#\input.txt", "Day#")]
+    //[Puzzle(@"PuzzleInputs\Day#\input.txt", "Day#", #)]
     public class DT
     {
         [Benchmark(0)]
