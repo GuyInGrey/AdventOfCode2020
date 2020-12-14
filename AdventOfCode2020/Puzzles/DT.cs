@@ -13,13 +13,13 @@ namespace GuyInGrey_AoC2020.Puzzles
         }
 
         [Benchmark(1)]
-        public int Part1()
+        public object Part1()
         {
             return 1;
         }
 
         [Benchmark(2)]
-        public int Part2()
+        public object Part2()
         {
             return 2;
         }

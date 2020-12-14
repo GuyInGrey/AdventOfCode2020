@@ -54,6 +54,8 @@
     <Compile Include="Puzzles\D10.cs" />
     <Compile Include="Puzzles\D11.cs" />
     <Compile Include="Puzzles\D12.cs" />
+    <Compile Include="Puzzles\D13.cs" />
+    <Compile Include="Puzzles\D14.cs" />
     <Compile Include="Puzzles\D2.cs" />
     <Compile Include="Puzzles\D3.cs" />
     <Compile Include="Puzzles\D4.cs" />
