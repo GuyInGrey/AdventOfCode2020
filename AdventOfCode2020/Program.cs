@@ -61,7 +61,7 @@ namespace GuyInGrey_AoC2020
                         for (var i = 0; i < line.Count; i++)
                         {
                             lineOut[methodNames.ToList().IndexOf(line[i].BenchmarkedMethod.Name)] = 
-                                "`" + line[i].TimeTaken.TotalMilliseconds + " ms`";
+                                $"`" + line[i].TimeTaken.TotalMilliseconds + " ms` {line[0].IterationsRan}x";
                         }
                         markdown += $"|{line[0].Information.Name}|{string.Join("|", lineOut)}|\n";
                     }
@@ -75,12 +75,10 @@ namespace GuyInGrey_AoC2020
             types = types.OrderBy(t => (t.GetAttribute<PuzzleAttribute>()).Priority).ToArray();
             var toReturn = new List<List<TimingResult>>();
 
-            var iter = 500;
-            Console.WriteLine(" - " + iter + " iterations each -");
             foreach (var t in types)
             {
                 var benchmark = new BenchmarkedPuzzle(t);
-                benchmark.Run(iter);
+                benchmark.Run();
 
                 Console.WriteLine(string.Join("\n", benchmark.BenchmarkResults) + "\n");
                 toReturn.Add(benchmark.BenchmarkResults);

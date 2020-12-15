@@ -4,17 +4,18 @@ GuyInGrey's Solutions!
 ## Timing Results:
 |Name|Setup|Part1|Part2|
 |-|-|-|-|
-|Day1|`0.1423 ms`|`0.07 ms`|`1.1425 ms`|
-|Day2|`2.6678 ms`|`2.3693 ms`|`0.319 ms`|
-|Day3|`0.2653 ms`|`0.0216 ms`|`0.082 ms`|
-|Day4|`0.3356 ms`|`0.6471 ms`|`1.3857 ms`|
-|Day5|`0.556 ms`|`0.0067 ms`|`0.0532 ms`|
-|Day6|`0.3333 ms`|`0.6501 ms`|`0.9988 ms`|
-|Day7|`10.649 ms`|`0.1132 ms`|`0.012 ms`|
-|Day8|`0.2922 ms`|`0.0086 ms`|`1.2068 ms`|
-|Day9|`0.3216 ms`|`1.5337 ms`|`0.9752 ms`|
-|Day10|`0.0835 ms`|`0.0034 ms`|`0.0397 ms`|
-|Day11|`44.7475 ms`|`33.3897 ms`|`34.5331 ms`|
-|Day12|`0.145 ms`|`0.1291 ms`|`0.1452 ms`|
-|Day13|`0.0682 ms`|`0.0123 ms`|`0.0003 ms`|
-|Day14|`0.6477 ms`|`0.5909 ms`|`76.4849 ms`|
+|Day1|`0.19 ms` {line[0].IterationsRan}x|`0.0599 ms` {line[0].IterationsRan}x|`1.1361 ms` {line[0].IterationsRan}x|
+|Day2|`2.6889 ms` {line[0].IterationsRan}x|`2.3891 ms` {line[0].IterationsRan}x|`0.3234 ms` {line[0].IterationsRan}x|
+|Day3|`0.2556 ms` {line[0].IterationsRan}x|`0.0207 ms` {line[0].IterationsRan}x|`0.0822 ms` {line[0].IterationsRan}x|
+|Day4|`0.3365 ms` {line[0].IterationsRan}x|`0.6667 ms` {line[0].IterationsRan}x|`1.405 ms` {line[0].IterationsRan}x|
+|Day5|`0.5635 ms` {line[0].IterationsRan}x|`0.0065 ms` {line[0].IterationsRan}x|`0.053 ms` {line[0].IterationsRan}x|
+|Day6|`0.3377 ms` {line[0].IterationsRan}x|`0.6712 ms` {line[0].IterationsRan}x|`1.0079 ms` {line[0].IterationsRan}x|
+|Day7|`10.7654 ms` {line[0].IterationsRan}x|`0.1161 ms` {line[0].IterationsRan}x|`0.0129 ms` {line[0].IterationsRan}x|
+|Day8|`0.2869 ms` {line[0].IterationsRan}x|`0.0074 ms` {line[0].IterationsRan}x|`1.2737 ms` {line[0].IterationsRan}x|
+|Day9|`0.3086 ms` {line[0].IterationsRan}x|`1.5325 ms` {line[0].IterationsRan}x|`0.9827 ms` {line[0].IterationsRan}x|
+|Day10|`0.0769 ms` {line[0].IterationsRan}x|`0.0036 ms` {line[0].IterationsRan}x|`0.0398 ms` {line[0].IterationsRan}x|
+|Day11|`40.9502 ms` {line[0].IterationsRan}x|`34.1564 ms` {line[0].IterationsRan}x|`37.6768 ms` {line[0].IterationsRan}x|
+|Day12|`0.1405 ms` {line[0].IterationsRan}x|`0.1256 ms` {line[0].IterationsRan}x|`0.1417 ms` {line[0].IterationsRan}x|
+|Day13|`0.0631 ms` {line[0].IterationsRan}x|`0.0115 ms` {line[0].IterationsRan}x|`0.0004 ms` {line[0].IterationsRan}x|
+|Day14|`0.6435 ms` {line[0].IterationsRan}x|`0.597 ms` {line[0].IterationsRan}x|`77.0704 ms` {line[0].IterationsRan}x|
+|Day15|`0.0009 ms` {line[0].IterationsRan}x|`0.2051 ms` {line[0].IterationsRan}x|`5200.2097 ms` {line[0].IterationsRan}x|

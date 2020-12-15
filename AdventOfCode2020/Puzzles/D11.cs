@@ -15,7 +15,7 @@ namespace GuyInGrey_AoC2020.Puzzles
         Seat[,] SeatsP1;
         Seat[,] SeatsP2;
 
-        [Benchmark(0)]
+        [Benchmark(0, 100)]
         public void Setup(PuzzleAttribute info)
         {
             var input = File.ReadAllText(info.DataFilePath).Replace("\r", "")
@@ -54,7 +54,7 @@ namespace GuyInGrey_AoC2020.Puzzles
             }
         }
 
-        [Benchmark(1)]
+        [Benchmark(1, 100)]
         public int Part1()
         {
             return RunPart(1);
@@ -108,7 +108,7 @@ namespace GuyInGrey_AoC2020.Puzzles
             return t;
         }
 
-        [Benchmark(2)]
+        [Benchmark(2, 100)]
         public int Part2()
         {
             return RunPart(2);

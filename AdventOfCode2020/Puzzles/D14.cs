@@ -46,7 +46,7 @@ namespace GuyInGrey_AoC2020.Puzzles
             return sum;
         }
 
-        [Benchmark(2)]
+        [Benchmark(2, 100)]
         public object Part2()
         {
             var mem = new Dictionary<ulong, ulong>();

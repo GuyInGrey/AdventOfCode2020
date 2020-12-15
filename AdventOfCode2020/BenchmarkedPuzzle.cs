@@ -26,8 +26,9 @@ namespace GuyInGrey_AoC2020
             ToBenchmark = t.GetMethods().Where(m => m.GetAttribute<BenchmarkAttribute>() != null).ToArray();
         }
 
-        public void Run(int iterations)
+        public void Run()
         {
+            var iterations = 500;
             Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.High;
             Thread.CurrentThread.Priority = ThreadPriority.Highest;
 
@@ -38,8 +39,9 @@ namespace GuyInGrey_AoC2020
                 instances.Add(Activator.CreateInstance(ClassType));
             }
 
-            foreach (var m in ToBenchmark.OrderBy(m => m.GetAttribute<BenchmarkAttribute>().Priority))
+            foreach (var m2 in ToBenchmark.Select(m => (m, m.GetAttribute<BenchmarkAttribute>())).OrderBy(m => m.Item2.Priority))
             {
+                var m = m2.Item1;
                 ManageGC();
                 Thread.Sleep(300);
                 var p = new object[] { Info };
@@ -59,6 +61,7 @@ namespace GuyInGrey_AoC2020
                         result = m.Invoke(i, null);
                     }
                     iterationsRan++;
+                    if (iterationsRan >= m2.Item2.BenchmarkRuns) { break; }
 
                     //if ((HighResolutionDateTime.UtcNow - startTime).TotalSeconds > 30) { break; }
                 }
@@ -99,7 +102,8 @@ namespace GuyInGrey_AoC2020
         public override string ToString()
         {
             return $"{Information.Name}\\{BenchmarkedMethod.Name}" +
-                $" - {TimeTaken.TotalMilliseconds} ms" + 
+                $" {IterationsRan}x " +
+                $"- {TimeTaken.TotalMilliseconds} ms" + 
                 (Result != null ? $" - {Result}" : "");
         }
     }
