@@ -61,7 +61,7 @@ namespace GuyInGrey_AoC2020
                         for (var i = 0; i < line.Count; i++)
                         {
                             lineOut[methodNames.ToList().IndexOf(line[i].BenchmarkedMethod.Name)] = 
-                                $"`" + line[i].TimeTaken.TotalMilliseconds + " ms` {line[0].IterationsRan}x";
+                                $"`{line[i].TimeTaken.TotalMilliseconds}ms` {line[0].IterationsRan}x";
                         }
                         markdown += $"|{line[0].Information.Name}|{string.Join("|", lineOut)}|\n";
                     }

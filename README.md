@@ -4,18 +4,18 @@ GuyInGrey's Solutions!
 ## Timing Results:
 |Name|Setup|Part1|Part2|
 |-|-|-|-|
-|Day1|`0.19 ms` {line[0].IterationsRan}x|`0.0599 ms` {line[0].IterationsRan}x|`1.1361 ms` {line[0].IterationsRan}x|
-|Day2|`2.6889 ms` {line[0].IterationsRan}x|`2.3891 ms` {line[0].IterationsRan}x|`0.3234 ms` {line[0].IterationsRan}x|
-|Day3|`0.2556 ms` {line[0].IterationsRan}x|`0.0207 ms` {line[0].IterationsRan}x|`0.0822 ms` {line[0].IterationsRan}x|
-|Day4|`0.3365 ms` {line[0].IterationsRan}x|`0.6667 ms` {line[0].IterationsRan}x|`1.405 ms` {line[0].IterationsRan}x|
-|Day5|`0.5635 ms` {line[0].IterationsRan}x|`0.0065 ms` {line[0].IterationsRan}x|`0.053 ms` {line[0].IterationsRan}x|
-|Day6|`0.3377 ms` {line[0].IterationsRan}x|`0.6712 ms` {line[0].IterationsRan}x|`1.0079 ms` {line[0].IterationsRan}x|
-|Day7|`10.7654 ms` {line[0].IterationsRan}x|`0.1161 ms` {line[0].IterationsRan}x|`0.0129 ms` {line[0].IterationsRan}x|
-|Day8|`0.2869 ms` {line[0].IterationsRan}x|`0.0074 ms` {line[0].IterationsRan}x|`1.2737 ms` {line[0].IterationsRan}x|
-|Day9|`0.3086 ms` {line[0].IterationsRan}x|`1.5325 ms` {line[0].IterationsRan}x|`0.9827 ms` {line[0].IterationsRan}x|
-|Day10|`0.0769 ms` {line[0].IterationsRan}x|`0.0036 ms` {line[0].IterationsRan}x|`0.0398 ms` {line[0].IterationsRan}x|
-|Day11|`40.9502 ms` {line[0].IterationsRan}x|`34.1564 ms` {line[0].IterationsRan}x|`37.6768 ms` {line[0].IterationsRan}x|
-|Day12|`0.1405 ms` {line[0].IterationsRan}x|`0.1256 ms` {line[0].IterationsRan}x|`0.1417 ms` {line[0].IterationsRan}x|
-|Day13|`0.0631 ms` {line[0].IterationsRan}x|`0.0115 ms` {line[0].IterationsRan}x|`0.0004 ms` {line[0].IterationsRan}x|
-|Day14|`0.6435 ms` {line[0].IterationsRan}x|`0.597 ms` {line[0].IterationsRan}x|`77.0704 ms` {line[0].IterationsRan}x|
-|Day15|`0.0009 ms` {line[0].IterationsRan}x|`0.2051 ms` {line[0].IterationsRan}x|`5200.2097 ms` {line[0].IterationsRan}x|
+|Day1|`0.1401ms` 500x|`0.0618ms` 500x|`1.156ms` 500x|
+|Day2|`2.7707ms` 500x|`2.4282ms` 500x|`0.3209ms` 500x|
+|Day3|`0.2632ms` 500x|`0.0221ms` 500x|`0.0823ms` 500x|
+|Day4|`0.3479ms` 500x|`0.6829ms` 500x|`1.4118ms` 500x|
+|Day5|`0.5745ms` 500x|`0.0062ms` 500x|`0.0545ms` 500x|
+|Day6|`0.3528ms` 500x|`0.6806ms` 500x|`1.0176ms` 500x|
+|Day7|`10.8428ms` 500x|`0.1181ms` 500x|`0.0119ms` 500x|
+|Day8|`0.2858ms` 500x|`0.0075ms` 500x|`1.3061ms` 500x|
+|Day9|`0.3153ms` 500x|`1.5419ms` 500x|`0.9952ms` 500x|
+|Day10|`0.0775ms` 500x|`0.0035ms` 500x|`0.0397ms` 500x|
+|Day11|`42.5563ms` 100x|`37.4933ms` 100x|`39.2789ms` 100x|
+|Day12|`0.1426ms` 500x|`0.131ms` 500x|`0.1506ms` 500x|
+|Day13|`0.0643ms` 500x|`0.012ms` 500x|`0.0004ms` 500x|
+|Day14|`0.6716ms` 500x|`0.6371ms` 500x|`79.3483ms` 500x|
+|Day15|`0.0007ms` 500x|`0.2136ms` 500x|`5556.4006ms` 500x|
